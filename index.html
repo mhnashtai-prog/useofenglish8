@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USE OF ENGLISH — C1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: left;
+            margin-bottom: 40px;
+            padding-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .header .highlight {
+            color: #4FC3F7;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 40px;
+            flex: 1;
+        }
+
+        .menu-panel {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .menu-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4FC3F7, #29B6F6);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-item:hover:before {
+            opacity: 1;
+        }
+
+        .menu-letter {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(79, 195, 247, 0.3);
+            border-radius: 50%;
+            line-height: 40px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            border: 2px solid rgba(79, 195, 247, 0.5);
+        }
+
+        .menu-item h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .menu-item p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .welcome-panel {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .welcome-panel h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #4FC3F7;
+        }
+
+        .welcome-panel p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .practice-box {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .practice-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #4FC3F7;
+        }
+
+        .exercise-screen {
+            display: none;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .exercise-header {
+            margin-bottom: 40px;
+        }
+
+        .exercise-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #4FC3F7;
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            height: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4FC3F7, #29B6F6);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .question-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            background: rgba(79, 195, 247, 0.1);
+            border-color: rgba(79, 195, 247, 0.5);
+        }
+
+        .option.selected {
+            background: rgba(79, 195, 247, 0.2);
+            border-color: #4FC3F7;
+        }
+
+        .option.correct {
+            background: rgba(76, 175, 80, 0.2);
+            border-color: #4CAF50;
+        }
+
+        .option.incorrect {
+            background: rgba(244, 67, 54, 0.2);
+            border-color: #f44336;
+        }
+
+        .option-letter {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            line-height: 30px;
+            text-align: center;
+            margin-right: 15px;
+            font-weight: 600;
+        }
+
+        .input-field {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: white;
+            font-size: 1.1rem;
+            margin: 0 5px;
+            min-width: 150px;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #4FC3F7;
+            background: rgba(79, 195, 247, 0.1);
+        }
+
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .base-word {
+            background: rgba(79, 195, 247, 0.2);
+            border: 1px solid #4FC3F7;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-left: 15px;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .transformation-template {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin: 20px 0;
+        }
+
+        .key-word {
+            background: rgba(255, 193, 7, 0.3);
+            border: 1px solid #FFC107;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #4FC3F7, #29B6F6);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(79, 195, 247, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
+        }
+
+        .question-number {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .results-screen {
+            display: none;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .score-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 50px;
+            margin: 40px 0;
+            animation: scoreReveal 0.8s ease-out;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border: 8px solid rgba(79, 195, 247, 0.3);
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .score-text {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #4FC3F7;
+        }
+
+        .answer-review {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .answer-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .answer-item.correct {
+            border-left: 4px solid #4CAF50;
+        }
+
+        .answer-item.incorrect {
+            border-left: 4px solid #f44336;
+        }
+
+        .answer-question {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .answer-details {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .answer-explanation {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+        @keyframes scoreReveal {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .menu-item {
+                padding: 20px;
+            }
+            
+            .question-container {
+                padding: 25px;
+            }
+
+            .input-field {
+                min-width: 120px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="mainMenu">
+            <div class="header">
+                <h1>USE OF ENGLISH — <span class="highlight">C1</span></h1>
+                <p>Cambridge-style tasks; exam-accurate patterns.</p>
+            </div>
+            
+            <div class="main-content">
+                <div class="menu-panel">
+                    <div class="menu-item" onclick="startExercise('multipleChoice')">
+                        <div class="menu-letter">A</div>
+                        <h3>Multiple Choice</h3>
+                        <p>12 items — collocations & subtle grammar</p>
+                    </div>
+                    
+                    <div class="menu-item" onclick="startExercise('gapFill')">
+                        <div class="menu-letter">B</div>
+                        <h3>Open Cloze (Gap-fill)</h3>
+                        <p>8 grammar blanks in a 150-200 word text</p>
+                    </div>
+                    
+                    <div class="menu-item" onclick="startExercise('wordFormation')">
+                        <div class="menu-letter">C</div>
+                        <h3>Word Formation</h3>
+                        <p>8 sentences, full context — derive the word</p>
+                    </div>
+                    
+                    <div class="menu-item" onclick="startExercise('sentenceTransformation')">
+                        <div class="menu-letter">D</div>
+                        <h3>Sentence Transformation</h3>
+                        <p>6 prompts — use the given word (3-5 words)</p>
+                    </div>
+                </div>
+                
+                <div class="welcome-panel">
+                    <h2>Welcome</h2>
+                    <p>Pick a section to start. Content follows Cambridge C1 Advanced handbook patterns.</p>
+                    
+                    <div class="practice-box">
+                        <h3>Ready for authentic C1 practice?</h3>
+                        <p>Choose <strong>Multiple Choice</strong> for a 12-question set. Gap-fill is a single 160-200 word cloze with 8 grammar blanks (no general vocabulary). Word formation and transformations follow Cambridge patterns.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="exerciseScreen" class="exercise-screen">
+            <div class="exercise-header">
+                <h2 id="exerciseTitle" class="exercise-title">Multiple Choice</h2>
+                <div class="progress-container">
+                    <div id="progressBar" class="progress-bar"></div>
+                </div>
+                <div id="questionNumber" class="question-number">Question 1 of 12</div>
+            </div>
+            
+            <div id="questionContainer" class="question-container">
+            </div>
+            
+            <div class="controls">
+                <button class="btn btn-secondary" onclick="returnToMenu()">RETURN TO MENU</button>
+                <button id="nextBtn" class="btn" onclick="nextQuestion()">NEXT</button>
+            </div>
+        </div>
+
+        <div id="resultsScreen" class="results-screen">
+            <h2 class="exercise-title">Results</h2>
+            <div class="score-card">
+                <div class="score-circle">
+                    <div id="finalScore" class="score-text">0/12</div>
+                </div>
+                <h3>Your Score</h3>
+                <p id="scoreMessage">Keep practicing to improve your C1 level skills!</p>
+            </div>
+            
+            <div id="answerKey" class="answer-review">
+            </div>
+            
+            <div class="controls">
+                <button class="btn btn-secondary" onclick="returnToMenu()">RETURN TO MENU</button>
+                <button class="btn" onclick="restartExercise()">TRY AGAIN</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const exercises = {
+            multipleChoice: {
+                title: "Multiple Choice",
+                totalQuestions: 12,
+                questions: [
+                    {
+                        question: "The company's reputation was severely _____ by the scandal, and it took years to rebuild customer trust.",
+                        options: ["damaged", "harmed", "tarnished", "spoiled"],
+                        correct: 2,
+                        explanation: "'Tarnished' is the most appropriate collocation with 'reputation' - it suggests damage to honor or prestige."
+                    },
+                    {
+                        question: "Despite her _____ efforts to maintain a healthy lifestyle, she still felt constantly exhausted.",
+                        options: ["conscious", "conscientious", "concentrated", "considerable"],
+                        correct: 1,
+                        explanation: "'Conscientious' means showing care and attention to duty - the right choice for describing dedicated efforts."
+                    },
+                    {
+                        question: "The new evidence _____ serious doubts on the defendant's alibi and changed the direction of the trial.",
+                        options: ["cast", "put", "placed", "threw"],
+                        correct: 0,
+                        explanation: "'Cast doubts' is the correct fixed phrase meaning to cause uncertainty or suspicion."
+                    },
+                    {
+                        question: "She has a _____ for languages and can pick up new vocabulary with remarkable ease.",
+                        options: ["talent", "gift", "flair", "skill"],
+                        correct: 2,
+                        explanation: "'Flair' suggests a natural instinctive ability, particularly for creative or stylistic skills like languages."
+                    },
+                    {
+                        question: "The research findings are _____ with previous studies conducted in the same field.",
+                        options: ["consistent", "persistent", "resistant", "insistent"],
+                        correct: 0,
+                        explanation: "'Consistent with' is the correct phrase meaning in agreement or harmony with something."
+                    },
+                    {
+                        question: "The hotel's _____ service and attention to detail exceeded all our expectations.",
+                        options: ["impeccable", "irreproachable", "unquestionable", "indisputable"],
+                        correct: 0,
+                        explanation: "'Impeccable' means flawless or faultless, commonly used to describe excellent service quality."
+                    },
+                    {
+                        question: "His argument was so _____ that even his strongest critics had to acknowledge its validity.",
+                        options: ["compelling", "compulsive", "comprehensive", "competitive"],
+                        correct: 0,
+                        explanation: "'Compelling' means powerfully convincing, which fits the context of persuasive arguments."
+                    },
+                    {
+                        question: "The committee decided to _____ the meeting until next week due to the unexpected circumstances.",
+                        options: ["delay", "postpone", "defer", "adjourn"],
+                        correct: 1,
+                        explanation: "'Postpone' specifically means to reschedule to a later time, which matches the context."
+                    },
+                    {
+                        question: "Her _____ knowledge of art history impressed everyone at the museum.",
+                        options: ["extensive", "intensive", "expansive", "expensive"],
+                        correct: 0,
+                        explanation: "'Extensive knowledge' means broad and comprehensive knowledge covering many areas."
+                    },
+                    {
+                        question: "The new policy aims to _____ a better work-life balance for all employees.",
+                        options: ["achieve", "obtain", "acquire", "attain"],
+                        correct: 0,
+                        explanation: "'Achieve' is most commonly used with abstract goals like balance, success, or objectives."
+                    },
+                    {
+                        question: "The documentary _____ light on the environmental impact of industrial farming.",
+                        options: ["cast", "shed", "threw", "put"],
+                        correct: 1,
+                        explanation: "'Shed light on' is the correct idiom meaning to clarify or provide information about something."
+                    },
+                    {
+                        question: "The athlete's performance has been _____ declining since his injury last season.",
+                        options: ["gradually", "eventually", "progressively", "consecutively"],
+                        correct: 2,
+                        explanation: "'Progressively' means increasingly over time, which best describes a continuing decline."
+                    }
+                ]
+            },
+            gapFill: {
+                title: "Open Cloze (Gap-fill)",
+                totalQuestions: 8,
+                questions: [
+                    {
+                        question: "Scientists have discovered that regular exercise can significantly improve cognitive function, _____ it has been known for centuries that physical activity benefits the body.",
+                        correct: "although",
+                        explanation: "Conjunction showing contrast between new discovery and old knowledge."
+                    },
+                    {
+                        question: "The museum, _____ houses one of the world's finest collections of contemporary art, attracts visitors from around the globe.",
+                        correct: "which",
+                        explanation: "Relative pronoun referring to 'museum' in a non-defining clause."
+                    },
+                    {
+                        question: "_____ the heavy rain, the outdoor concert was cancelled, disappointing thousands of fans.",
+                        correct: "due to",
+                        explanation: "Prepositional phrase indicating cause and effect."
+                    },
+                    {
+                        question: "She has been working on this project for months and should _____ finished it by now.",
+                        correct: "have",
+                        explanation: "Modal perfect construction expressing expectation about a completed action."
+                    },
+                    {
+                        question: "The more time you spend practising, _____ better your performance will become.",
+                        correct: "the",
+                        explanation: "Comparative structure 'the more... the better'."
+                    },
+                    {
+                        question: "Not only did the team win the championship, _____ they also broke several records.",
+                        correct: "but",
+                        explanation: "Correlative conjunction pair 'not only... but also'."
+                    },
+                    {
+                        question: "_____ it not been for your assistance, we would never have completed the task on time.",
+                        correct: "had",
+                        explanation: "Third conditional with inversion, equivalent to 'If it had not been for'."
+                    },
+                    {
+                        question: "Despite _____ warned repeatedly about the dangers, some climbers still ignore safety protocols.",
+                        correct: "being",
+                        explanation: "Gerund 'being' after preposition 'despite' in passive construction."
+                    }
+                ]
+            },
+            wordFormation: {
+                title: "Word Formation",
+                totalQuestions: 8,
+                questions: [
+                    {
+                        question: "The scientist's _____ research contributed significantly to our understanding of climate change.",
+                        baseWord: "GROUND",
+                        correct: "groundbreaking",
+                        explanation: "Compound adjective meaning pioneering or innovative."
+                    },
+                    {
+                        question: "The company's _____ to environmental protection has earned them several awards.",
+                        baseWord: "COMMIT",
+                        correct: "commitment",
+                        explanation: "Noun form expressing dedication or obligation."
+                    },
+                    {
+                        question: "His _____ behavior at the meeting surprised everyone who knew him well.",
+                        baseWord: "CHARACTER",
+                        correct: "uncharacteristic",
+                        explanation: "Adjective with negative prefix meaning not typical or usual."
+                    },
+                    {
+                        question: "The museum's collection includes some _____ valuable artifacts from ancient civilizations.",
+                        baseWord: "PRICE",
+                        correct: "priceless",
+                        explanation: "Adjective meaning invaluable or of immeasurable worth."
+                    },
+                    {
+                        question: "The team's _____ planning led to the project's ultimate failure.",
+                        baseWord: "ADEQUATE",
+                        correct: "inadequate",
+                        explanation: "Adjective with negative prefix meaning insufficient or lacking."
+                    },
+                    {
+                        question: "The politician's speech was full of _____ statements that confused the audience.",
+                        baseWord: "CONTRADICT",
+                        correct: "contradictory",
+                        explanation: "Adjective meaning inconsistent or conflicting."
+                    },
+                    {
+                        question: "The _____ of the old building took several months to complete.",
+                        baseWord: "RESTORE",
+                        correct: "restoration",
+                        explanation: "Noun meaning the process of returning something to its original condition."
+                    },
+                    {
+                        question: "Her _____ to succeed motivated her to work harder than ever before.",
+                        baseWord: "DETERMINE",
+                        correct: "determination",
+                        explanation: "Noun meaning firmness of purpose or resolve."
+                    }
+                ]
+            },
+            sentenceTransformation: {
+                title: "Sentence Transformation",
+                totalQuestions: 6,
+                questions: [
+                    {
+                        original: "The concert was cancelled because of the severe weather conditions.",
+                        keyWord: "DUE",
+                        template: "The concert was cancelled _____ severe weather conditions.",
+                        correct: "due to the",
+                        explanation: "Transform 'because of' to 'due to' - both mean 'caused by'."
+                    },
+                    {
+                        original: "It's possible that they missed the train.",
+                        keyWord: "MIGHT",
+                        template: "They _____ the train.",
+                        correct: "might have missed",
+                        explanation: "Modal perfect expressing possibility about past events."
+                    },
+                    {
+                        original: "I would prefer not to discuss this matter now.",
+                        keyWord: "RATHER",
+                        template: "I _____ this matter now.",
+                        correct: "would rather not discuss",
+                        explanation: "Transform 'would prefer not to' using 'would rather not'."
+                    },
+                    {
+                        original: "Despite working hard, she didn't get the promotion.",
+                        keyWord: "MATTER",
+                        template: "No _____ she worked, she didn't get the promotion.",
+                        correct: "matter how hard",
+                        explanation: "Transform 'despite + gerund' to 'no matter how + adjective/adverb'."
+                    },
+                    {
+                        original: "People say that the restaurant serves excellent food.",
+                        keyWord: "SAID",
+                        template: "The restaurant _____ excellent food.",
+                        correct: "is said to serve",
+                        explanation: "Passive reporting structure with infinitive."
+                    },
+                    {
+                        original: "The book was so interesting that I read it in one day.",
+                        keyWord: "SUCH",
+                        template: "It was _____ book that I read it in one day.",
+                        correct: "such an interesting",
+                        explanation: "Transform 'so + adjective' to 'such + article + adjective'."
+                    }
+                ]
+            }
+        };
+
+        let currentExercise = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let score = 0;
+        let selectedAnswer = null;
+
+        function startExercise(exerciseType) {
+            currentExercise = exercises[exerciseType];
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            score = 0;
+            selectedAnswer = null;
+            
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById('exerciseScreen').style.display = 'block';
+            document.getElementById('resultsScreen').style.display = 'none';
+            
+            document.getElementById('exerciseTitle').textContent = currentExercise.title;
+            
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const question = currentExercise.questions[currentQuestionIndex];
+            const container = document.getElementById('questionContainer');
+            const questionNumber = document.getElementById('questionNumber');
+            const progressBar = document.getElementById('progressBar');
+            
+            const progress = ((currentQuestionIndex + 1) / currentExercise.totalQuestions) * 100;
+            progressBar.style.width = progress + '%';
+            questionNumber.textContent = `Question ${currentQuestionIndex + 1} of ${currentExercise.totalQuestions}`;
+            
+            let html = '';
+            
+            if (currentExercise.title === 'Multiple Choice') {
+                html = `
+                    <div class="question">${currentQuestionIndex + 1}. ${question.question}</div>
+                    <div class="options">
+                        ${question.options.map((option, index) => `
+                            <div class="option" onclick="selectOption(${index})">
+                                <div class="option-letter">${String.fromCharCode(65 + index)}</div>
+                                <span>${option}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (currentExercise.title === 'Open Cloze (Gap-fill)') {
+                const parts = question.question.split('_____');
+                html = `
+                    <div class="question">
+                        ${currentQuestionIndex + 1}. ${parts[0]}<input type="text" class="input-field" id="userInput" placeholder="Type here" onkeyup="handleInputChange()">${parts[1] || ''}
+                    </div>
+                `;
+            } else if (currentExercise.title === 'Word Formation') {
+                const parts = question.question.split('_____');
+                html = `
+                    <div class="question">
+                        ${currentQuestionIndex + 1}. ${parts[0]}<input type="text" class="input-field" id="userInput" placeholder="Type here" onkeyup="handleInputChange()">${parts[1] || ''}
+                        <span class="base-word">${question.baseWord}</span>
+                    </div>
+                `;
+            } else if (currentExercise.title === 'Sentence Transformation') {
+                html = `
+                    <div class="question">
+                        <div style="margin-bottom: 20px;">
+                            <strong>${currentQuestionIndex + 1}. Original:</strong><br>
+                            ${question.original}
+                        </div>
+                        <div class="transformation-template">
+                            <strong>Complete the second sentence using the word given. Use 3-5 words including the given word.</strong><br><br>
+                            Key word: <span class="key-word">${question.keyWord}</span><br><br>
+                            ${question.template.replace('_____', '<input type="text" class="input-field" id="userInput" placeholder="3-5 words" onkeyup="handleInputChange()" style="width: 250px;">')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+            selectedAnswer = null;
+            updateNextButton();
+        }
+
+        function selectOption(optionIndex) {
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                if (index === optionIndex) {
+                    option.classList.add('selected');
+                } else {
+                    option.classList.remove('selected');
+                }
+            });
+            selectedAnswer = optionIndex;
+            updateNextButton();
+        }
+
+        function handleInputChange() {
+            const input = document.getElementById('userInput');
+            selectedAnswer = input.value.trim();
+            updateNextButton();
+        }
+
+        function updateNextButton() {
+            const nextBtn = document.getElementById('nextBtn');
+            if (selectedAnswer !== null && selectedAnswer !== '') {
+                nextBtn.disabled = false;
+                nextBtn.textContent = currentQuestionIndex === currentExercise.totalQuestions - 1 ? 'FINISH' : 'NEXT';
+            } else {
+                nextBtn.disabled = true;
+                nextBtn.textContent = 'NEXT';
+            }
+        }
+
+        function nextQuestion() {
+            if (selectedAnswer === null || selectedAnswer === '') return;
+            
+            const question = currentExercise.questions[currentQuestionIndex];
+            let isCorrect = false;
+            
+            if (currentExercise.title === 'Multiple Choice') {
+                isCorrect = selectedAnswer === question.correct;
+                userAnswers.push({
+                    question: question.question,
+                    userAnswer: question.options[selectedAnswer],
+                    correctAnswer: question.options[question.correct],
+                    isCorrect: isCorrect,
+                    explanation: question.explanation
+                });
+            } else {
+                const userAnswerLower = selectedAnswer.toLowerCase().trim();
+                const correctAnswerLower = question.correct.toLowerCase().trim();
+                isCorrect = userAnswerLower === correctAnswerLower;
+                
+                userAnswers.push({
+                    question: currentExercise.title === 'Sentence Transformation' ? 
+                        `Original: ${question.original}\nTemplate: ${question.template}` : question.question,
+                    userAnswer: selectedAnswer,
+                    correctAnswer: question.correct,
+                    isCorrect: isCorrect,
+                    explanation: question.explanation
+                });
+            }
+            
+            if (isCorrect) score++;
+            
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex >= currentExercise.totalQuestions) {
+                showResults();
+            } else {
+                displayQuestion();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('exerciseScreen').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'block';
+            
+            const finalScore = document.getElementById('finalScore');
+            const scoreMessage = document.getElementById('scoreMessage');
+            const answerKey = document.getElementById('answerKey');
+            
+            finalScore.textContent = `${score}/${currentExercise.totalQuestions}`;
+            
+            const percentage = (score / currentExercise.totalQuestions) * 100;
+            if (percentage >= 80) {
+                scoreMessage.textContent = 'Excellent! You have strong C1 level skills.';
+            } else if (percentage >= 60) {
+                scoreMessage.textContent = 'Good work! Keep practicing to reach C1 level.';
+            } else {
+                scoreMessage.textContent = 'Keep studying! Focus on the explanations below.';
+            }
+            
+            let reviewHtml = '<h3 style="margin-bottom: 20px;">Answer Review</h3>';
+            userAnswers.forEach((answer, index) => {
+                reviewHtml += `
+                    <div class="answer-item ${answer.isCorrect ? 'correct' : 'incorrect'}">
+                        <div class="answer-question">Question ${index + 1}</div>
+                        <div class="answer-details">
+                            <strong>Your answer:</strong> ${answer.userAnswer}<br>
+                            <strong>Correct answer:</strong> ${answer.correctAnswer}
+                        </div>
+                        <div class="answer-explanation">${answer.explanation}</div>
+                    </div>
+                `;
+            });
+            
+            answerKey.innerHTML = reviewHtml;
+        }
+
+        function returnToMenu() {
+            document.getElementById('mainMenu').style.display = 'block';
+            document.getElementById('exerciseScreen').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'none';
+        }
+
+        function restartExercise() {
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            score = 0;
+            selectedAnswer = null;
+            
+            document.getElementById('resultsScreen').style.display = 'none';
+            document.getElementById('exerciseScreen').style.display = 'block';
+            
+            displayQuestion();
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            updateNextButton();
+        });
+    </script>
+</body>
+</html>
